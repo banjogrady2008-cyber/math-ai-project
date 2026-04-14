@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Math AI</title>
+
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body {
+      font-family: "Segoe UI Variable", Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f3f3f3;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2 {
+      margin-top: 20px;
+    }
+
+    #setup-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 420px;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #setup-box label {
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+    }
+
+    #setup-box input,
+    #setup-box select {
+      padding: 8px;
+      margin-top: 4px;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+    }
+
+    #chatbox {
+      width: 90%;
+      max-width: 600px;
+      height: 65vh;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background: white;
+      overflow-y: auto;
+      margin-top: 20px;
+      border-radius: 10px;
+      display: none;
+      flex-direction: column;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 80%;
+      white-space: pre-wrap;
+    }
+
+    .bot {
+      background: #e3f2fd;
+      align-self: flex-start;
+    }
+
+    .user {
+      background: #d1ffd6;
+      align-self: flex-end;
+    }
+
+    #input-area {
+      display: none;
+      width: 90%;
+      max-width: 600px;
+      margin-top: 10px;
+    }
+
+    #user-input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #aaa;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #1976d2;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0d47a1;
+    }
+
+    #side-controls {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #side-controls button {
+      background: #555;
+    }
+
+    #side-controls button:hover {
+      background: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Smart Math AI</h2>
+
+  <!-- Setup Box -->
+  <div id="setup-box">
+    <h3>Before we start</h3>
+
+    <label>
+      Grade
+      <select id="grade">
+        <option value="">Select grade</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+      </select>
+    </label>
+
+    <label>
+      Math subject
+      <input id="subject" type="text" placeholder="Addition, Fractions, Algebra…" />
+    </label>
+
+    <label>
+      Comfort level (0–10)
+      <input id="comfort" type="number" min="0" max="10" step="1" />
+    </label>
+
+    <button onclick="startTutor()">Start Tutor</button>
+  </div>
+
+  <div id="chatbox"></div>
+
+  <div id="side-controls">
+    <button onclick="resetChat()">Reset Chat</button>
+    <button onclick="fullReset()">Full Reset</button>
+  </div>
+
+  <div id="input-area">
+    <input id="user-input" type="text" placeholder="Type your message…" />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>
