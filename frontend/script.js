@@ -4,9 +4,11 @@ let chatHistory = [];
 
 function addMessage(text, sender) {
   const chatbox = document.getElementById("chatbox");
+
   const message = document.createElement("div");
   message.className = `message ${sender}`;
   message.innerHTML = text;
+
   chatbox.appendChild(message);
 
   if (window.MathJax) {
@@ -32,6 +34,7 @@ window.startTutor = function () {
   document.getElementById("side-controls").style.display = "flex";
 
   chatHistory = [];
+
   chatHistory.push({
     role: "user",
     parts: [{
@@ -43,7 +46,7 @@ Comfort level: ${comfort}`
   });
 
   addMessage(
-    `Hi! We'll work on <b>${subject}</b> step by step.<br>What problem would you like help with?`,
+    `Hi! We'll work on <b>${subject}</b> step by step. What problem would you like help with?`,
     "bot"
   );
 };
@@ -56,36 +59,29 @@ window.sendMessage = async function () {
   addMessage(userText, "user");
   input.value = "";
 
-  chatHistory.push({
-    role: "user",
-    parts: [{ text: userText }]
-  });
-
   try {
-    const response = await fetch(BACKEND_URL + "/chat", {
+    const res = await fetch("YOUR_BACKEND_URL/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ chatHistory })
+      body: JSON.stringify({
+        message: userText,
+        history: chatHistory
+      })
     });
 
-    const data = await response.json();
+    const data = await res.json();
 
-    if (data.error) {
-      addMessage(data.error, "bot");
-      return;
-    }
+    addMessage(data.reply, "bot");
 
-    addMessage(data.text, "bot");
+    chatHistory.push(
+      { role: "user", parts: [{ text: userText }] },
+      { role: "model", parts: [{ text: data.reply }] }
+    );
 
-    chatHistory.push({
-      role: "model",
-      parts: [{ text: data.text }]
-    });
-
-  } catch (error) {
-    addMessage("Connection error", "bot");
+  } catch (err) {
+    addMessage("Error: " + err.message, "bot");
   }
 };
 
