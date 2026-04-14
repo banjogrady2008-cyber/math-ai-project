@@ -7,8 +7,12 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: "*"
+  origin: "*",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
 }));
+
+app.options("*", cors());
 app.use(express.json());
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
