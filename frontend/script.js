@@ -60,7 +60,7 @@ window.sendMessage = async function () {
   input.value = "";
 
   try {
-    const res = await fetch("https://math-ai-backend-4soe.onrender.com", {
+    const res = await fetch("https://math-ai-backend-4soe.onrender.com/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
