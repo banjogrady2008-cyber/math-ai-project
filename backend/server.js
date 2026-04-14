@@ -43,10 +43,17 @@ app.post("/chat", async (req, res) => {
     });
 
     const reply = result.response.text();
-    res.json({ reply });
+
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).json({ reply });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+
+    res.setHeader("Content-Type", "application/json");
+    res.status(500).json({
+      reply: "Server error: " + err.message
+    });
   }
 });
 
